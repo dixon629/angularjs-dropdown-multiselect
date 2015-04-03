@@ -14,7 +14,7 @@ directiveModule.directive('ngDropdownMultiselect', ['$filter', '$document', '$co
                 events: '=',
                 searchFilter: '=?',
                 translationTexts: '=',
-                groupBy: '@'
+                groupBy: '@',
             },
             template: function (element, attrs) {
                 var checkboxes = attrs.checkboxes ? true : false;
@@ -177,6 +177,10 @@ directiveModule.directive('ngDropdownMultiselect', ['$filter', '$document', '$co
                 };
 
                 $scope.getButtonText = function () {
+                    //Customized button text support
+                    if ($scope.settings.buttonTextFunction)
+                        return $scope.settings.buttonTextFunction($scope.options, $scope.selectedModel, $scope.settings);
+                    
                     if ($scope.settings.dynamicTitle && ($scope.selectedModel.length > 0 || (angular.isObject($scope.selectedModel) && _.keys($scope.selectedModel).length > 0))) {
                         if ($scope.settings.smartButtonMaxItems > 0) {
                             var itemsText = [];
